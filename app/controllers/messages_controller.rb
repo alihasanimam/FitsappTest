@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.all
+    @messages = current_user.message_summery
   end
 
   # GET /messages/1
@@ -16,6 +16,10 @@ class MessagesController < ApplicationController
   # GET /messages/new
   def new
     @message = Message.new
+    respond_to do |format|
+      format.html { redirect_to messages_url }
+      format.js { render layout: false}
+    end
   end
 
   # GET /messages/1/edit
@@ -59,6 +63,15 @@ class MessagesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def all
+    @user = User.find(params[:user_id])
+    @messages = current_user.messages_with(@user.id)
+    respond_to do |format|
+      format.html { redirect_to messages_url}
+      format.js { render layout: false }
     end
   end
 

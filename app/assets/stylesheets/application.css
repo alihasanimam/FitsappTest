@@ -13,3 +13,7 @@
  *= require_tree .
  *= require_self
  */
+
+.sidebar-margin{
+    margin-right: 1px, #efefef;
+}

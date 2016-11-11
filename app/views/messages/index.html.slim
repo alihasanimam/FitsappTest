@@ -1,29 +1,14 @@
-h1 Listing messages
+.row
+  .col-xs-4
+    nav.nav.nav-sidebar.sidebar-margin
+      ul.nav
+        h2.sidebar-brand.bg-primary Messages
+        - @messages.each do |message|
+          li
+            = link_to(print_summery(message), all_messages_path(user_id: messaging_with(message).id), remote: true)
 
-table
-  thead
-    tr
-      th Sender
-      th Receiver
-      th Text
-      th Status
-      th Seen at
-      th
-      th
-      th
-
-  tbody
-    - @messages.each do |message|
-      tr
-        td = message.sender
-        td = message.receiver
-        td = message.text
-        td = message.status
-        /td = message.seen_at
-        td = link_to 'Show', message
-        td = link_to 'Edit', edit_message_path(message)
-        td = link_to 'Destroy', message, data: { confirm: 'Are you sure?' }, method: :delete
-
-br
-
-= link_to 'New Message', new_message_path
+  .col-xs-8
+    #message-details
+      .jumbotron
+        h1 Welcome!
+        p Select a conversion from left or send a #{link_to 'new message', new_message_path, remote: true}
