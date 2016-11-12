@@ -15,9 +15,10 @@ class MessagesController < ApplicationController
 
   # GET /messages/new
   def new
+    @messages = current_user.message_summery
     @message = Message.new
     respond_to do |format|
-      format.html { redirect_to messages_url }
+      format.html
       format.js { render layout: false}
     end
   end
@@ -30,14 +31,17 @@ class MessagesController < ApplicationController
   # POST /messages.json
   def create
     @message = Message.new(message_params)
+    @message.sender = current_user
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
+        format.html { redirect_to messages_url, notice: 'Message was successfully send.' }
         format.json { render :show, status: :created, location: @message }
+        format.js { render layout: false}
       else
         format.html { render :new }
         format.json { render json: @message.errors, status: :unprocessable_entity }
+        format.js { render inline: 'alert("Something went wrong! Please try again later.");'}
       end
     end
   end
@@ -83,6 +87,6 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:sender, :receiver, :text, :status, :seen_at)
+      params.require(:message).permit(:receiver_id, :text, :status, :seen_at)
     end
 end

@@ -1,18 +1,8 @@
 h1.bg-primary= @user.name
 - @messages.each do |message|
-  - if message.sender.id == current_user.id
-    .bs-callout.bs-callout-primary
-      .row
-        .col-xs-5
-          h4= message.sender.name
-        .col-xs-5.pull-right
-          p.pull-right= message.created_at.strftime('%b %d, %Y - %I:%M %p')
-      p= message.text
-  - else
-    .bs-callout.bs-callout-warning
-      .row
-        .col-xs-5
-          h4= message.sender.name
-        .col-xs-5.pull-right
-          p.pull-right= message.created_at.strftime('%b %d, %Y - %I:%M %p')
-      p= message.text
+    = render( partial: 'single', locals: {message: message})
+
+= form_for @user.received_messages.build, :remote => true do |f|
+  = f.text_area :text, class: 'form-control', rows: '3'
+  = f.hidden_field :receiver_id
+  button.btn.btn-primary.pull-right type='submit' Send

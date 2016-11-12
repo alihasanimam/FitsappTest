@@ -1,14 +1,8 @@
 .row
-  .col-xs-4
-    nav.nav.nav-sidebar.sidebar-margin
-      ul.nav
-        h2.sidebar-brand.bg-primary Messages
-        - @messages.each do |message|
-          li
-            = link_to(print_summery(message), all_messages_path(user_id: messaging_with(message).id), remote: true)
+  = render partial: 'leftbar'
 
   .col-xs-8
     #message-details
       .jumbotron
         h1 Welcome!
-        p Select a conversion from left or send a #{link_to 'new message', new_message_path, remote: true}
+        p Select a conversion from left or send a #{link_to 'new message', new_message_path}

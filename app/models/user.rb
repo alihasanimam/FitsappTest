@@ -10,6 +10,9 @@ class User < ApplicationRecord
   has_many :sent_messages, foreign_key: 'sender_id', class_name: 'Message'
   has_many :received_messages, foreign_key: 'receiver_id', class_name: 'Message'
 
+  def self.search_receivers(current_id)
+    User.select(:id, :name, :user_name).where('id <> ?', current_id)
+  end
 
   def message_summery
     Message.includes(:sender, :receiver).where("(sender_id = ? OR receiver_id = ?) AND is_last = ?",

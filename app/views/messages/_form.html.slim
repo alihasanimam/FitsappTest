@@ -1,24 +1,23 @@
-= form_for @message do |f|
+h1.bg-primary New Message
+= form_for @message, html: {class: 'form-horizontal'} do |f|
   - if @message.errors.any?
     #error_explanation
-      h2 = "#{pluralize(@message.errors.count, "error")} prohibited this message from being saved:"
-      ul
-        - @message.errors.full_messages.each do |message|
-          li = message
+      .alert.alert-danger role="alert"
+        = "#{pluralize(@message.errors.count, "error")} prohibited this message from being saved:"
+      - @message.errors.full_messages.each do |message|
+        p.text-danger= message
 
-  .field
-    = f.label :sender
-    = f.number_field :sender
-  .field
-    = f.label :receiver
-    = f.number_field :receiver
-  .field
-    = f.label :text
-    = f.text_field :text
-  .field
-    = f.label :status
-    = f.number_field :status
-  /.field
-    = f.label :seen_at
-    = f.text_field :seen_at
-  .actions = f.submit
+  .form-group
+    = f.label :receiver_id, class: 'col-sm-2 control-label'
+    .col-sm-10
+      /= f.number_field :receiver_id, class: 'form-control'
+      =f.select :receiver_id, User.search_receivers(current_user.id).collect{ |u| [u.name, u.id] }, {}, {class: 'chosen-select'}
+  .form-group
+    = f.label :text, class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_area :text, class: 'form-control', rows: '6'
+
+  button.btn.btn-primary.pull-right type='submit' Send
+
+javascript:
+  $('.chosen-select').chosen({width: '100%'});

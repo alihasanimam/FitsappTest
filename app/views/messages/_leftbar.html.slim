@@ -1,0 +1,7 @@
+.col-xs-4
+  nav.nav.nav-sidebar.sidebar-margin
+    ul.nav
+      h2.sidebar-brand.bg-primary Messages
+      - @messages.each do |message|
+        li
+          = link_to(print_summery(message), all_messages_path(user_id: messaging_with(message).id), remote: true)

@@ -1,0 +1,17 @@
+.container
+  .row
+    .col-md-4.col-md-offset-4
+      .well
+        = form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "form-signin"}) do |f|
+          h2.form-signin-heading
+            | Please sign in
+          = f.label :email, 'Email Address', class: 'sr-only'
+          = f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'Email Address'
+          = f.label :password, 'Password', class: 'sr-only'
+          = f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'Password'
+          - if devise_mapping.rememberable?
+            label
+              = f.check_box :remember_me, label: false
+              |  Remember me
+            = f.button "Sign in", class: 'btn btn-lg btn-primary btn-block'
+            = render "devise/shared/links"
